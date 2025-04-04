@@ -13,7 +13,7 @@ class VoiceScreen extends StatefulWidget {
 }
 
 class _VoiceScreenState extends State<VoiceScreen> {
-  final Record _audioRecorder = Record(); // Ensure the `record` package is properly imported
+  late final AudioRecorder _audioRecorder;
   bool _isRecording = false;
   String? _audioPath;
   Duration _recordDuration = Duration.zero;
@@ -22,9 +22,17 @@ class _VoiceScreenState extends State<VoiceScreen> {
   late Timer _timer;
 
   @override
+  void initState() {
+    super.initState();
+    _audioRecorder = AudioRecorder();
+  }
+
+  @override
   void dispose() {
     _audioRecorder.dispose();
-    _timer.cancel();
+    if (_isRecording) {
+      _timer.cancel();
+    }
     super.dispose();
   }
 
@@ -36,10 +44,12 @@ class _VoiceScreenState extends State<VoiceScreen> {
         final path = '${directory.path}/recording.m4a';
         
         await _audioRecorder.start(
+          const RecordConfig(
+            encoder: AudioEncoder.aacLc,
+            bitRate: 128000,
+            sampleRate: 44100,
+          ),
           path: path,
-          encoder: AudioEncoder.aacLc, // Specify the encoder
-          bitRate: 128000, // Optional: Set the bit rate
-          samplingRate: 44100, // Optional: Set the sampling rate
         );
         
         setState(() {
