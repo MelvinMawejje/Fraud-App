@@ -6,6 +6,7 @@ class TextScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController textController = TextEditingController();
     return  BaseLayout(
       appBarTitle: 'Text',
       body: Center(
@@ -24,6 +25,7 @@ class TextScreen extends StatelessWidget {
                 maxHeight: 200,
                 maxWidth: double.infinity),
               child: TextField(
+              controller: textController,
               maxLines: null,
               decoration: InputDecoration(
                 fillColor: Colors.white,
@@ -50,6 +52,7 @@ class TextScreen extends StatelessWidget {
                   child: ElevatedButton(
                   onPressed: () {
                     // Add your onPressed logic here
+                    textController.clear();
                   },
                   child: Text('Clear',
                     style: TextStyle(
@@ -65,6 +68,7 @@ class TextScreen extends StatelessWidget {
                   child: ElevatedButton(
                   onPressed: () {
                     // Add your onPressed logic here
+                    print(textController.text);
                   },
                   child: Text('Upload text',
                     style: TextStyle(
