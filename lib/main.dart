@@ -4,6 +4,15 @@ import 'package:fraud_watch/Settings/settings_home.dart';
 import 'package:fraud_watch/home_screen.dart';
 import 'package:fraud_watch/text_screen.dart';
 import 'package:fraud_watch/voice_screen.dart';
+import 'package:fraud_watch/splashscreen/splash_screen.dart';
+import 'package:fraud_watch/Settings/screens/display_settings.dart';
+import 'package:fraud_watch/Settings/screens/notification_settings.dart';
+import 'package:fraud_watch/Settings/screens/storage_settings.dart';
+import 'package:fraud_watch/Settings/screens/contact_us.dart';
+import 'package:fraud_watch/Profile/screens/history_screen.dart';
+import 'package:fraud_watch/Profile/screens/user_screen.dart';
+import 'package:fraud_watch/Profile/screens/events_screen.dart';
+import 'package:fraud_watch/Profile/screens/reports_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +26,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
       title: 'My App',
       home: HomeScreen(),
+      // home: const SplashScreen(),
       theme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'Lato',
@@ -41,7 +51,20 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfileHome(),
         '/settings': (context) => const SettingsHome(),
         '/home': (context) => const HomeScreen(),
+        '/splash_screen': (context) => const SplashScreen(),
+        '/splash': (context) => const SplashScreen(),
+        '/display_settings': (context) => const DisplaySettings(),
+        '/notification_settings': (context) => const NotificationSettings(),
+        '/storage_settings': (context) => const StorageSettings(),
+        '/contact_us': (context) => const ContactUs(),
+        '/user_screen': (context) => const UserScreen(),
+        '/history_screen': (context) => const HistoryScreen(),
+        '/events_screen': (context) => const EventsScreen(),
+         '/reports_screen': (context) => const ReportsScreen(),
+        
       },
     );
 }
 }
+
+// flutter run -d edge
