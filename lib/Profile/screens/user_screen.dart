@@ -11,10 +11,10 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   // Sample user data - in a real app, this would come from a database or API
   final Map<String, String> userData = {
-    'name': 'John Doe',
-    'email': 'john.doe@example.com',
-    'phone': '+1 (555) 123-4567',
-    'memberSince': 'January 2023',
+    'name': 'solomon',
+    'email': 'solo@example.com',
+    'phone': '+256701465000',
+    'memberSince': 'January 2025',
   };
 
   final goldColor = const Color.fromARGB(255, 193, 154, 107);
