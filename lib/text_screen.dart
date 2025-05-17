@@ -3,6 +3,8 @@ import 'package:fraud_watch/baselayout.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fraud_watch/Profile/models/prediction_record.dart';
+import 'package:fraud_watch/Profile/services/prediction_storage.dart';
 // Ensure flutter_dotenv is added to your pubspec.yaml and run 'flutter pub get'
 
 class TextScreen extends StatefulWidget {
@@ -17,6 +19,8 @@ class _TextScreenState extends State<TextScreen> {
   bool isLoading = false;
   String predictionResult = '';
   double fraudProbability = 0.0;
+
+  final PredictionStorage _storage = PredictionStorage();
 
   @override
   void initState() {
@@ -67,10 +71,21 @@ class _TextScreenState extends State<TextScreen> {
           final label = data[0]['label'] as String; // "SCAM" or "NOTSCAM"
           final score = data[0]['score'] as double;
 
+         // Save the prediction record
+        final record = PredictionRecord(
+        text: truncatedText,
+        result: label,
+        probability: score,
+        timestamp: DateTime.now(),
+        );
+
+        await _storage.savePrediction(record);
+
           setState(() {
             predictionResult = label == "SCAM" 
                 ? 'SCAM (${(score * 100).toStringAsFixed(1)}%)'
                 : 'NOT SCAM (${(score * 100).toStringAsFixed(1)}%)';
+                fraudProbability = score;
           });
         } else {
           setState(() {
@@ -90,7 +105,13 @@ class _TextScreenState extends State<TextScreen> {
   Widget build(BuildContext context) {
     return BaseLayout(
       appBarTitle: 'Text',
+     
       body: Center(
+        child: Column(
+        children: [
+           
+        
+       Expanded(       
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -119,15 +140,23 @@ class _TextScreenState extends State<TextScreen> {
             SizedBox(height: 20),
             if (isLoading) CircularProgressIndicator(),
             if (predictionResult.isNotEmpty)
-              Padding(
+              // Wrap the Padding with SingleChildScrollView to make the text scrollable
+              // You might want to constrain the height of this area if the text can be very long
+              Container(
+              constraints: BoxConstraints(maxHeight: 200), // Example constraint: max height of 100 logical pixels
+              child: SingleChildScrollView(
+                child: Padding(
                 padding: EdgeInsets.all(20),
-                child: Text(predictionResult,
+                child: Text(
+                  predictionResult,
                   style: TextStyle(
-                    fontSize: 24,
-                    color: fraudProbability > 0.7 ? Colors.red : Colors.green,
-                    fontWeight: FontWeight.bold
+                  fontSize: 24,
+                  color: fraudProbability > 0.7 ? Colors.red : Colors.green,
+                  fontWeight: FontWeight.bold,
                   ),
                 ),
+                ),
+              ),
               ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -165,9 +194,31 @@ class _TextScreenState extends State<TextScreen> {
                   ),
                 ),
               ],
+            ),
+            //SizedBox(height: 50,),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50.0, right: 10),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/reports');
+                  },
+                  backgroundColor: Theme.of(context).primaryColor,
+                   tooltip: 'View Reports',
+                  child: Icon(Icons.assessment,
+                       color:  Color.fromARGB(255, 193, 154, 107),
+                       size: 50,
+                  ),
+                 
+                ),
+              ),
             )
           ],
         ),
+        )
+        ]
+      )
       ),
     );
   }

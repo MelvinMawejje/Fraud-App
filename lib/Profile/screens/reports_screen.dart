@@ -603,7 +603,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDetailRow('Date & Time', activity['date']! + ' 14:32:18'),
+              _buildDetailRow('Date & Time', '${activity['date']!} 14:32:18'),
               _buildDetailRow('Device', 'iPhone 14 Pro'),
               _buildDetailRow('Location', 'San Francisco, CA (Unusual)'),
               _buildDetailRow('IP Address', '198.51.100.42'),
@@ -768,7 +768,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                             ],
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                   );
                 } else {

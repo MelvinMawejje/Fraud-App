@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fraud_watch/baselayout.dart';
+import 'package:fraud_watch/Settings/screens/voice_datascreen.dart';
+
+
 
 class StorageSettings extends StatefulWidget {
   const StorageSettings({super.key});
@@ -15,9 +18,9 @@ class _StorageSettingsState extends State<StorageSettings> {
   bool _syncToCloud = true;
   final List<String> _backupOptions = ['Daily', 'Weekly', 'Monthly'];
   double _storageUsed = 245.0; // in MB
-  double _storageTotal = 500.0; // in MB
+  final double _storageTotal = 500.0; // in MB
   bool _clearingCache = false;
-  
+
   // Define the gold color
   final goldColor = const Color.fromARGB(255, 193, 154, 107);
 
@@ -32,7 +35,7 @@ class _StorageSettingsState extends State<StorageSettings> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              
+
               // Storage Usage
               _buildSettingCard(
                 title: 'Storage Usage',
@@ -57,15 +60,15 @@ class _StorageSettingsState extends State<StorageSettings> {
                           setState(() {
                             _clearingCache = true;
                           });
-                          
+
                           // Simulate clearing cache
                           await Future.delayed(const Duration(seconds: 2));
-                          
+
                           setState(() {
                             _storageUsed = 45.0; // Reduced storage usage
                             _clearingCache = false;
                           });
-                          
+
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -103,9 +106,9 @@ class _StorageSettingsState extends State<StorageSettings> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Backup Settings
               _buildSettingCard(
                 title: 'Backup Settings',
@@ -113,7 +116,7 @@ class _StorageSettingsState extends State<StorageSettings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildSwitchRow(
-                      'Auto Backup', 
+                      'Auto Backup',
                       _autoBackup,
                       (value) => setState(() => _autoBackup = value),
                     ),
@@ -124,7 +127,7 @@ class _StorageSettingsState extends State<StorageSettings> {
                         const Text('Backup Frequency'),
                         DropdownButton<String>(
                           value: _backupFrequency,
-                          onChanged: _autoBackup 
+                          onChanged: _autoBackup
                               ? (String? newValue) {
                                   if (newValue != null) {
                                     setState(() {
@@ -149,16 +152,16 @@ class _StorageSettingsState extends State<StorageSettings> {
                     ),
                     const SizedBox(height: 12),
                     _buildSwitchRow(
-                      'Sync to Cloud', 
+                      'Sync to Cloud',
                       _syncToCloud,
                       (value) => setState(() => _syncToCloud = value),
                     ),
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Data Management
               _buildSettingCard(
                 title: 'Data Management',
@@ -178,6 +181,21 @@ class _StorageSettingsState extends State<StorageSettings> {
                       contentPadding: EdgeInsets.zero,
                     ),
                     const Divider(),
+                    ListTile( // Added Voice Data section
+                      title: const Text('Voice Data'),
+                      leading: Icon(Icons.mic_none_outlined, color: goldColor),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          // Provide the required audioPath argument.
+                          // Adjust the value ('') if a specific path is needed here.
+                          MaterialPageRoute(builder: (context) => const VoiceDataScreen()),
+                        );
+                      },
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    const Divider(),
                     ListTile(
                       title: const Text('Delete All Data'),
                       leading: Icon(Icons.delete_outline, color: Colors.red),
@@ -189,9 +207,9 @@ class _StorageSettingsState extends State<StorageSettings> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Save Button
               SizedBox(
                 width: double.infinity,
@@ -227,7 +245,7 @@ class _StorageSettingsState extends State<StorageSettings> {
       ),
     );
   }
-  
+
   // Helper method for delete confirmation dialog
   void _showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
@@ -251,6 +269,11 @@ class _StorageSettingsState extends State<StorageSettings> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                // Add logic to delete data here
+                setState(() {
+                  // Potentially reset storage used if data deletion affects it
+                  _storageUsed = 45.0; // Example reset
+                });
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('All data deleted'),
@@ -267,7 +290,7 @@ class _StorageSettingsState extends State<StorageSettings> {
       },
     );
   }
-  
+
   // Helper method for switch rows
   Widget _buildSwitchRow(String label, bool value, Function(bool) onChanged) {
     return Row(
@@ -282,7 +305,7 @@ class _StorageSettingsState extends State<StorageSettings> {
       ],
     );
   }
-  
+
   // Helper method to build settings card
   Widget _buildSettingCard({
     required String title,
