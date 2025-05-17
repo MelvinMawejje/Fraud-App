@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String heading;
+  final List<Widget>? actions; // Make actions optional
 
   const CustomAppbar({
     super.key,
     required this.heading,
+    this.actions, // Optional parameter
   });
 
   @override
@@ -21,6 +23,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       toolbarHeight: 50,
       backgroundColor: const Color.fromARGB(255, 193, 154, 107),
+      actions: actions, // Pass the actions to AppBar
     );
   }
 

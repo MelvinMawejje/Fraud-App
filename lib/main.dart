@@ -13,6 +13,7 @@ import 'package:fraud_watch/Profile/screens/history_screen.dart';
 import 'package:fraud_watch/Profile/screens/user_screen.dart';
 import 'package:fraud_watch/Profile/screens/events_screen.dart';
 import 'package:fraud_watch/Profile/screens/reports_screen.dart';
+import 'package:fraud_watch/Profile/screens/reports_screendata.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
       title: 'My App',
       home: HomeScreen(),
-      // home: const SplashScreen(),
       theme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'Lato',
@@ -60,11 +60,9 @@ class MyApp extends StatelessWidget {
         '/user_screen': (context) => const UserScreen(),
         '/history_screen': (context) => const HistoryScreen(),
         '/events_screen': (context) => const EventsScreen(),
-         '/reports_screen': (context) => const ReportsScreen(),
-        
+        '/reports_screen': (context) => const ReportsScreen(),
+        '/reports': (context) => const ReportsDataScreen(),
       },
     );
 }
 }
-
-// flutter run -d edge
