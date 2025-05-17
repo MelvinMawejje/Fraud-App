@@ -79,7 +79,7 @@ flutter:
     - assets/tokenizer/vocab.txt
     - assets/tokenizer/tokenizer_config.json
     - assets/tokenizer/special_tokens_map.json
-    - .env
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
