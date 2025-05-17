@@ -84,7 +84,11 @@ import 'package:fraud_watch/Profile/screens/history_screen.dart';
 import 'package:fraud_watch/Profile/screens/user_screen.dart';
 import 'package:fraud_watch/Profile/screens/events_screen.dart';
 import 'package:fraud_watch/Profile/screens/reports_screen.dart';
+
+import 'package:fraud_watch/Profile/screens/reports_screendata.dart';
+
 import 'package:fraud_watch/providers/display_settings_provider.dart'; // New import
+
 
 void main() {
   runApp(
@@ -101,6 +105,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+        return MaterialApp(
+      title: 'My App',
+      home: HomeScreen(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Lato',
+        // colorScheme: ColorScheme.fromSeed(
+        //   seedColor:Color.fromARGB(255, 193, 154, 107),,
+        //   brightness: Brightness.dark,
+        // ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Lato',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor:Color.fromARGB(255, 193, 154, 107),
+          brightness: Brightness.dark,
+        ),
+      ),
+      themeMode: ThemeMode.system, // Explicitly set system theme mode
+
     // Access the display settings provider
     final displaySettings = Provider.of<DisplaySettingsProvider>(context);
     
@@ -119,6 +145,7 @@ class MyApp extends StatelessWidget {
       },
       home: const HomeScreen(),
       // home: const SplashScreen(),
+
       debugShowCheckedModeBanner: false,
       routes: {
         '/voice_screen': (context) => const VoiceScreen(),
@@ -136,7 +163,15 @@ class MyApp extends StatelessWidget {
         '/history_screen': (context) => const HistoryScreen(),
         '/events_screen': (context) => const EventsScreen(),
         '/reports_screen': (context) => const ReportsScreen(),
+
+        '/reports': (context) => const ReportsDataScreen(),
+      },
+    );
+}
+}
+
       },
     );
   }
 }
+
